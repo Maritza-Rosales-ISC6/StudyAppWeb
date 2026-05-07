@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyApp - Organizador Académico</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--color-text-primary); background: white; }
+        
+        /* Header */
+        .header-top { background: #004d73; height: 8px; }
+        
+        header {
+            background: white;
+            padding: 1.2rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #004d73;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #1e5a96 0%, #2a7bb8 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: #004d73;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-links a:hover { opacity: 0.7; }
+        
+        .nav-dropdown {
+            position: relative;
+        }
+        
+        .dropdown-arrow {
+            display: inline-block;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        
+        .cta-button {
+            background: #00897b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover { 
+            background: #00695c;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4ba3d4 0%, #2a8bb5 50%, #1e6a8f 100%);
+            padding: 2rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: url('data:image/svg+xml,<svg viewBox="0 0 1200 60" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 Q300,10 600,30 T1200,30 L1200,60 L0,60 Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left {
+            flex: 1;
+            color: white;
+        }
+        
+        /* Ajuste para que las imágenes no se desborden de los círculos/cuadros */
+        .logo img, .hero-logo {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Si quieres que el icono del Hero mantenga el borde circular blanco */
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            padding: 5px; /* Espacio interno para que respire el icono */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            margin-bottom: 1rem;
+        }
+        
+        .hero-left h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .hero-left p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        
+        .btn-know-more {
+            background: #00897b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-know-more:hover {
+            background: #00695c;
+            transform: translateY(-2px);
+        }
+        
+        .hero-right {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .video-mockup {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .video-content {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a3a5c 0%, #2a5a8f 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .carousel-btn {
+            width: 28px;
+            height: 28px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .carousel-btn:hover { background: rgba(255,255,255,0.5); }
+        
+        /* Features Section */
+        .features {
+            max-width: 1400px;
+            margin: -40px auto 0;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon-big {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+        }
+        
+        .feature-card:nth-child(1) .feature-icon-big {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e8f0 100%);
+        }
+        
+        .feature-card:nth-child(2) .feature-icon-big {
+            background: linear-gradient(135deg, #fef3e6 0%, #fce4cc 100%);
+        }
+        
+        .feature-card:nth-child(3) .feature-icon-big {
+            background: linear-gradient(135deg, #f0e8f8 0%, #e4d4f0 100%);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Section Divider */
+        .divider-wave {
+            width: 100%;
+            height: 60px;
+            background: url('data:image/svg+xml,<svg viewBox="0 0 1200 60" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 Q300,10 600,30 T1200,30 L1200,60 L0,60 Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+        
+        /* How It Works Section */
+        .how-works {
+            background: linear-gradient(135deg, #5bb3e0 0%, #4a9fd4 50%, #2a8db5 100%);
+            padding: 3rem 2rem;
+            position: relative;
+        }
+        
+        .how-works-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .how-works h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+        
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .carousel-btn-nav {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .carousel-btn-nav:hover {
+            background: rgba(255,255,255,0.5);
+            transform: scale(1.1);
+        }
+        
+        .carousel-phone {
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 35px;
+            padding: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        
+        /* Demo Section */
+        .demo {
+            background: linear-gradient(135deg, #7ec8e3 0%, #5bb3dd 50%, #4a9fd4 100%);
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-bg-plants {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-size: 8rem;
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .demo-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .demo-phones-group {
+            display: flex;
+            gap: -1rem;
+            position: relative;
+            min-height: 500px;
+            flex: 1;
+        }
+        
+        .demo-phone-item {
+            width: 240px;
+            height: 480px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .demo-phone-item:nth-child(1) {
+            z-index: 3;
+            transform: translateY(0);
+        }
+        
+        .demo-phone-item:nth-child(2) {
+            z-index: 2;
+            margin-left: -20px;
+            transform: translateY(20px);
+        }
+        
+        .demo-phone-item:nth-child(3) {
+            z-index: 1;
+            margin-left: -20px;
+            transform: translateY(40px);
+        }
+        
+        .demo-phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 25px;
+            padding: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .demo-phone-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00897b;
+            margin-bottom: 0.8rem;
+        }
+        
+        .demo-phone-item-row {
+            background: #f5f5f5;
+            padding: 0.6rem;
+            margin-bottom: 0.6rem;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #333;
+            border-left: 3px solid #00897b;
+        }
+        
+        .demo-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 320px;
+            flex: 0 0 320px;
+        }
+        
+        .demo-form h3 {
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 13px;
+            font-family: inherit;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #00897b;
+            box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.1);
+        }
+        
+        .form-btn {
+            width: 100%;
+            padding: 12px;
+            background: #00897b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .form-btn:hover {
+            background: #00695c;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: #004d73;
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 13px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            transition: opacity 0.2s;
+        }
+        
+        .social-icons a:hover { opacity: 0.7; }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active { display: flex; }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-close {
+            float: right;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #999;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
+        
+        .modal-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #00897b;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            z-index: 3000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
+        
+        @media (max-width: 768px) {
+            .hero-content { flex-direction: column; }
+            .nav-links { display: none; }
+            .demo-content { flex-direction: column; }
+            .demo-phones-group { flex-direction: column; }
+            .demo-phone-item { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-top"></div>
+    
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo_libro.png" alt="Logo" style="width: 48px; height: 48px; border-radius: 8px;">
+                <span>StudyApp</span>
+            </div>
+            <ul class="nav-links">
+                <li><a class="nav-dropdown">Inicio <span class="dropdown-arrow">▼</span></a></li>
+                <li><a class="nav-dropdown">Características <span class="dropdown-arrow">▼</span></a></li>
+                <li><a class="nav-dropdown">Galería <span class="dropdown-arrow">▼</span></a></li>
+                <li><a onclick="openModal()">Descargar</a></li>
+                <li><a onclick="scrollTo('contact')">Contacto</a></li>
+                <li><button class="cta-button" onclick="openModal()">Descargar App</button></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-left">
+                <img src="logo_birretee.png" alt="App Icon" class="hero-logo" style="object-fit: cover;">
+                <h1>StudyApp</h1>
+                <p>Tu asistente académico inteligente para organiza horarios y tareas.</p>
+                <button class="btn-know-more" onclick="scrollTo('features')">Conoce Más</button>
+            </div>
+            <div class="hero-right">
+                <div class="video-mockup">
+                    <div class="video-content">
+                        ▶
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="carousel-btn">⏮</button>
+                        <button class="carousel-btn">⏭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-big">📅</div>
+                <h3>Gestiona tus Horarios y Tareas</h3>
+                <p>Organiza tus clases y asignaturas.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-big">🔔</div>
+                <h3>Notificaciones Inteligentes</h3>
+                <p>Recibe recordatorios a tiempo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon-big">📊</div>
+                <h3>Kanban y Calendario</h3>
+                <p>Visualiza tus entregas resmindings.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-wave"></div>
+
+    <!-- How It Works Section -->
+    <section class="how-works">
+        <div class="how-works-content">
+            <h2>Mira cómo funciona la App</h2>
+            <div class="carousel-container">
+                <button class="carousel-btn-nav" onclick="prevSlide()">❮</button>
+                <div class="carousel-phone">
+                    <div class="phone-screen" id="carouselScreen">📱</div>
+                </div>
+                <button class="carousel-btn-nav" onclick="nextSlide()">❯</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="contact">
+        <div class="demo-bg-plants">🌿🪴🌱</div>
+        <div class="demo-content">
+            <div class="demo-phones-group">
+                <div class="demo-phone-item">
+                    <div class="demo-phone-screen">
+                        <div class="demo-phone-title">📅 Horarios</div>
+                        <div class="demo-phone-item-row">Lunes 9:00 - Matemáticas</div>
+                        <div class="demo-phone-item-row">Lunes 10:30 - Física</div>
+                        <div class="demo-phone-item-row">Martes 9:00 - Química</div>
+                        <div class="demo-phone-item-row">Miércoles 14:00 - Proyecto</div>
+                    </div>
+                </div>
+                <div class="demo-phone-item">
+                    <div class="demo-phone-screen">
+                        <div class="demo-phone-title">✅ Tareas</div>
+                        <div class="demo-phone-item-row">Cálculo: Ejercicios</div>
+                        <div class="demo-phone-item-row">Historia: Capítulo 5</div>
+                        <div class="demo-phone-item-row">Proyecto: Presentación</div>
+                        <div class="demo-phone-item-row">Revisión: Examen Final</div>
+                    </div>
+                </div>
+                <div class="demo-phone-item">
+                    <div class="demo-phone-screen">
+                        <div class="demo-phone-title">📊 Calendario</div>
+                        <div class="demo-phone-item-row">3 de Mayo - Examen</div>
+                        <div class="demo-phone-item-row">10 de Mayo - Entrega</div>
+                        <div class="demo-phone-item-row">15 de Mayo - Presentación</div>
+                        <div class="demo-phone-item-row">20 de Mayo - Revisión</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-form">
+                <h3>Contáctanos</h3>
+                <input type="text" class="form-input" placeholder="Nombre" id="name">
+                <input type="email" class="form-input" placeholder="Correo Electrónico" id="email">
+                <textarea class="form-input" placeholder="Mensaje" id="message" style="min-height: 60px;"></textarea>
+                <button class="form-btn" onclick="submitForm()">Enviar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Todos los derechos encauchador</p>
+            <div class="social-icons">
+                <a href="#" title="Twitter">𝕏</a>
+                <a href="#" title="Facebook">f</a>
+                <a href="#" title="Instagram">📷</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #004d73; margin-top: 1rem;">Descargar StudyApp</h2>
+            <p style="color: #666; margin: 1rem 0;">Selecciona tu plataforma:</p>
+            <div class="modal-buttons">
+                <button class="modal-btn" style="background: #000; color: white;" onclick="download('iOS')">🍎 App Store</button>
+                <button class="modal-btn" style="background: #3DDC84; color: white;" onclick="download('Android')">🤖 Google Play</button>
+                <button class="modal-btn" style="background: #00897b; color: white;" onclick="download('Web')">💻 Versión Web</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = ['📅', '✅', '📊', '🎯'];
+        
+        function openModal() {
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        function download(platform) {
+            notify(`¡Descarga iniciada para ${platform}!`);
+            setTimeout(closeModal, 500);
+        }
+        
+        function scrollTo(id) {
+            document.getElementById(id).scrollIntoView({behavior:'smooth'});
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateCarousel();
+        }
+        
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateCarousel();
+        }
+        
+        function updateCarousel() {
+            document.getElementById('carouselScreen').textContent = slides[currentSlide];
+        }
+        
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                notify('¡Mensaje enviado correctamente!');
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('message').value = '';
+            } else {
+                notify('Completa todos los campos');
+            }
+        }
+        
+        function notify(msg) {
+            const n = document.createElement('div');
+            n.className = 'notification';
+            n.textContent = msg;
+            document.body.appendChild(n);
+            setTimeout(() => n.remove(), 3000);
+        }
+        
+        window.onclick = function(e) {
+            const m = document.getElementById('modal');
+            if (e.target === m) closeModal();
+        }
+    </script>
+</body>
+</html>
