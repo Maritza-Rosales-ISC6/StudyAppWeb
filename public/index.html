@@ -558,18 +558,18 @@
         
         /* Modal */
         .modal {
-            display: none;
+            display: none; /* Se cambia a 'flex' por JS */
             position: fixed;
-            top: 0;
+            z-index: 2000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
+            background-color: rgba(0,0,0,0.7);
+            align-items: center;     /* Centrado vertical */
+            justify-content: center;  /* Centrado horizontal */
         }
-        
+                
         .modal.active { display: flex; }
         
         .modal-content {
@@ -617,7 +617,121 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             animation: slideIn 0.3s ease;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+    }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        /* --- Mejora de diseño para Modales --- */
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px; /* Bordes más redondeados como la app */
+            max-width: 550px;
+            width: 90%;
+            max-height: 80vh;
+            border-top: 8px solid #004d73; /* Franja superior azul */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
         
+        /* Estilo del scrollbar */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #00897b;
+            border-radius: 10px;
+        }
+        
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #00695c;
+        }
+
+        .modal-content h2 {
+            color: #004d73;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Lista de características estilo App */
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #333;
+            border-left: 4px solid #00897b;
+            transition: transform 0.2s;
+        }
+
+        .features-list li:hover {
+            transform: scale(1.02);
+        }
+
+        /* Galería con diseño limpio */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .gallery-grid img:hover {
+            border-color: #00897b;
+            transform: translateY(-5px);
+        }
+        
+                
         @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
         
         @media (max-width: 768px) {
@@ -639,13 +753,12 @@
                 <span>StudyApp</span>
             </div>
             <ul class="nav-links">
-                <li><a class="nav-dropdown">Inicio <span class="dropdown-arrow">▼</span></a></li>
-                <li><a class="nav-dropdown">Características <span class="dropdown-arrow">▼</span></a></li>
-                <li><a class="nav-dropdown">Galería <span class="dropdown-arrow">▼</span></a></li>
-                <li><a onclick="openModal()">Descargar</a></li>
-                <li><a onclick="scrollTo('contact')">Contacto</a></li>
-                <li><button class="cta-button" onclick="openModal()">Descargar App</button></li>
-            </ul>
+            <li><a onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Inicio</a></li>
+            <li><a onclick="openGeneralModal('featuresModal')">Características</a></li>
+            <li><a onclick="openGeneralModal('galleryModal')">Galería</a></li>
+            <li><a onclick="scrollToSection('contact')">Contacto</a></li>
+            <li><button class="cta-button" onclick="openGeneralModal('modal')">Descargar App</button></li>
+        </ul>
         </div>
     </header>
 
@@ -656,7 +769,7 @@
                 <img src="logo_birretee.png" alt="App Icon" class="hero-logo" style="object-fit: cover;">
                 <h1>StudyApp</h1>
                 <p>Tu asistente académico inteligente para organiza horarios y tareas.</p>
-                <button class="btn-know-more" onclick="scrollTo('features')">Conoce Más</button>
+                <button class="btn-know-more" onclick="openGeneralModal('knowMoreModal')">Conoce Más</button>
             </div>
             <div class="hero-right">
                 <div class="video-mockup">
@@ -778,69 +891,193 @@
             </div>
         </div>
     </div>
+<div id="featuresModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeGeneralModal('featuresModal')">&times;</span>
+        <h2><span style="font-size: 1.8rem;">✨</span> Características de StudyApp</h2>
+        <ul class="features-list">
+            <li><span>📅</span> Gestión de Tareas y Horarios</li>
+            <li><span>⏰</span> Calendario Académico Integrado</li>
+            <li><span>🔔</span> Recordatorios y Notificaciones</li>
+            <li><span>🔒</span> Almacenamiento Local Seguro (ROOM)</li>
+            <li><span>📈</span> Seguimiento de Actividades</li>
+        </ul>
+    </div>
+</div>
+
+<div id="galleryModal" class="modal">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="modal-close" onclick="closeGeneralModal('galleryModal')">&times;</span>
+        <h2><span style="font-size: 1.8rem;">📸</span> Galería del Sistema</h2>
+        <div class="gallery-grid">
+            <img src="img1.png" alt="Pantalla de Inicio">
+            <img src="img2.png" alt="Vista de Horarios">
+            <img src="img3.png" alt="Panel de Tareas">
+        </div>
+    </div>
+</div>
+
+<div id="knowMoreModal" class="modal">
+    <div class="modal-content" style="max-width: 700px;">
+        <span class="modal-close" onclick="closeGeneralModal('knowMoreModal')">&times;</span>
+        <h2><span style="font-size: 1.8rem;">📚</span> ¿Qué es StudyApp?</h2>
+        <p style="color: #666; font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+            StudyApp es tu asistente académico inteligente diseñado especialmente para estudiantes que desean organizar su vida académica de manera eficiente.
+        </p>
+        
+        <h3 style="color: #004d73; margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.1rem;">✨ Lo que puedes hacer con StudyApp:</h3>
+        
+        <ul class="features-list">
+            <li>
+                <span style="font-size: 1.5rem;">📅</span>
+                <div>
+                    <strong>Gestiona tus Horarios</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem; color: #666;">Organiza todos tus horarios de clases, laboratorios y actividades académicas en un solo lugar.</p>
+                </div>
+            </li>
+            <li>
+                <span style="font-size: 1.5rem;">✅</span>
+                <div>
+                    <strong>Control de Tareas</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem; color: #666;">Crea listas de tareas y controla el progreso de tus asignaciones y proyectos académicos.</p>
+                </div>
+            </li>
+            <li>
+                <span style="font-size: 1.5rem;">📊</span>
+                <div>
+                    <strong>Calendario Académico</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem; color: #666;">Visualiza todas tus fechas importantes, exámenes, entregas y evaluaciones en un calendario interactivo.</p>
+                </div>
+            </li>
+            <li>
+                <span style="font-size: 1.5rem;">🔔</span>
+                <div>
+                    <strong>Notificaciones Inteligentes</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem; color: #666;">Recibe recordatorios automáticos para no olvidar tus tareas, clases y plazos de entrega.</p>
+                </div>
+            </li>
+            <li>
+                <span style="font-size: 1.5rem;">📈</span>
+                <div>
+                    <strong>Seguimiento de Actividades</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem; color: #666;">Registra y monitorea tus actividades para ver tu progreso académico en tiempo real.</p>
+                </div>
+            </li>
+            <li>
+                <span style="font-size: 1.5rem;">🔒</span>
+                <div>
+                    <strong>Almacenamiento Seguro</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem; color: #666;">Todos tus datos se guardan de forma segura en tu dispositivo con tecnología ROOM.</p>
+                </div>
+            </li>
+        </ul>
+        
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin-top: 1.5rem; border-left: 4px solid #00897b;">
+            <p style="color: #333; margin: 0;">
+                <strong>¡Empieza ahora!</strong> Descarga StudyApp y toma control de tu vida académica. Con una interfaz intuitiva y herramientas poderosas, te ayudaremos a mantener todo en orden y alcanzar tu máximo potencial académico.
+            </p>
+        </div>
+    </div>
+</div>
 
     <script>
-        let currentSlide = 0;
-        const slides = ['📅', '✅', '📊', '🎯'];
-        
-        function openModal() {
-            document.getElementById('modal').classList.add('active');
+    let currentSlide = 0;
+    const slides = ['📅', '✅', '📊', '🎯'];
+
+    // --- LÓGICA DE MODALES (UNIFICADA) ---
+    // Esta función ahora sirve para todos los modales
+    function openGeneralModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // Evita que la página se mueva al estar abierto
         }
-        
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
+    }
+
+    // Función para cerrar cualquier modal
+    function closeGeneralModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // Devuelve el scroll a la página
         }
-        
-        function download(platform) {
-            notify(`¡Descarga iniciada para ${platform}!`);
-            setTimeout(closeModal, 500);
+    }
+
+    // Navegación suave a secciones
+    function scrollToSection(id) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
         }
-        
-        function scrollTo(id) {
-            document.getElementById(id).scrollIntoView({behavior:'smooth'});
-        }
-        
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateCarousel();
-        }
-        
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            updateCarousel();
-        }
-        
-        function updateCarousel() {
-            document.getElementById('carouselScreen').textContent = slides[currentSlide];
-        }
-        
-        function submitForm() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            
-            if (name && email && message) {
-                notify('¡Mensaje enviado correctamente!');
-                document.getElementById('name').value = '';
-                document.getElementById('email').value = '';
-                document.getElementById('message').value = '';
-            } else {
-                notify('Completa todos los campos');
+    }
+
+    function download(platform) {
+        notify(`¡Descarga iniciada para ${platform}!`);
+        // Aquí puedes poner la ruta real: window.location.href = '/descargas/app.apk';
+        setTimeout(() => closeGeneralModal('modal'), 500);
+    }
+
+    // --- CARRUSEL ---
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        updateCarousel();
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        updateCarousel();
+    }
+
+    function updateCarousel() {
+        document.getElementById('carouselScreen').textContent = slides[currentSlide];
+    }
+
+    // --- CONTACTO (CONEXIÓN AL SERVIDOR) ---
+    async function submitForm() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        if (name && email && message) {
+            try {
+                // Cambiamos a la ruta de tu server.js
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
+                });
+                
+                if (response.ok) {
+                    notify('¡Mensaje enviado al correo!');
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('message').value = '';
+                } else {
+                    notify('Error en el servidor');
+                }
+            } catch (error) {
+                notify('No se pudo conectar con el servidor');
             }
+        } else {
+            notify('Completa todos los campos');
         }
-        
-        function notify(msg) {
-            const n = document.createElement('div');
-            n.className = 'notification';
-            n.textContent = msg;
-            document.body.appendChild(n);
-            setTimeout(() => n.remove(), 3000);
+    }
+
+    function notify(msg) {
+        const n = document.createElement('div');
+        n.className = 'notification';
+        n.textContent = msg;
+        document.body.appendChild(n);
+        setTimeout(() => n.remove(), 3000);
+    }
+
+    // Cerrar modales al hacer clic fuera de ellos
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+            document.body.style.overflow = "auto";
         }
-        
-        window.onclick = function(e) {
-            const m = document.getElementById('modal');
-            if (e.target === m) closeModal();
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
