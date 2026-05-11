@@ -189,52 +189,123 @@
         .video-mockup {
             background: white;
             border-radius: 12px;
-            padding: 16px;
+            padding: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             width: 100%;
-            max-width: 400px;
-            aspect-ratio: 16/9;
+            max-width: 280px;
+            aspect-ratio: 9/16;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
-        
-        .video-content {
+
+        .hero-video {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a3a5c 0%, #2a5a8f 100%);
+            object-fit: contain;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
+            background: #0f2f49;
+        }
+
+        .hero-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
             position: relative;
+            background: #0f2f49;
         }
-        
-        .carousel-nav {
+
+        .hero-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #0f2f49;
+        }
+
+        .hero-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #0f2f49;
+        }
+
+        .hero-preview-badge {
             position: absolute;
-            bottom: 12px;
             left: 12px;
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-        }
-        
-        .carousel-btn {
-            width: 28px;
-            height: 28px;
-            background: rgba(255,255,255,0.3);
-            border: none;
-            border-radius: 50%;
+            bottom: 12px;
+            background: rgba(0, 0, 0, 0.72);
             color: white;
-            cursor: pointer;
-            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .hero-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background: #0f2f49;
+        }
+
+        .hero-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #0f2f49;
+        }
+
+        .hero-preview-badge {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            background: rgba(0, 0, 0, 0.72);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .gallery-media-card {
+            background: #f8f9fa;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid #eee;
             transition: all 0.3s;
         }
-        
-        .carousel-btn:hover { background: rgba(255,255,255,0.5); }
+
+        .gallery-media-card img,
+        .gallery-media-card video {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .gallery-media-card img {
+            height: 150px;
+        }
+
+        .gallery-media-card video {
+            height: 150px;
+            background: #0f2f49;
+        }
+
+        .gallery-media-caption {
+            padding: 0.8rem 0.9rem;
+            font-size: 13px;
+            color: #004d73;
+            font-weight: 600;
+        }
         
         /* Features Section */
         .features {
@@ -373,10 +444,33 @@
             height: 100%;
             background: white;
             border-radius: 30px;
+            overflow: hidden;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+        }
+
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .phone-screen-label {
+            position: absolute;
+            left: 14px;
+            right: 14px;
+            bottom: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #004d73;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
         
         /* Demo Section */
@@ -454,6 +548,14 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        .demo-phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+            display: block;
         }
         
         .demo-phone-title {
@@ -730,6 +832,17 @@
             border-color: #00897b;
             transform: translateY(-5px);
         }
+
+        @media (max-width: 768px) {
+            .video-mockup {
+                max-width: 220px;
+            }
+        }
+
+        .gallery-grid .gallery-media-card:hover {
+            border-color: #00897b;
+            transform: translateY(-5px);
+        }
         
                 
         @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
@@ -773,13 +886,10 @@
             </div>
             <div class="hero-right">
                 <div class="video-mockup">
-                    <div class="video-content">
-                        ▶
-                    </div>
-                    <div class="carousel-nav">
-                        <button class="carousel-btn">⏮</button>
-                        <button class="carousel-btn">⏭</button>
-                    </div>
+                    <video class="hero-preview" controls autoplay loop playsinline>
+                        <source src="video.mp4" type="video/mp4">
+                        Tu navegador no soporta la reproducción de video.
+                    </video>
                 </div>
             </div>
         </div>
@@ -815,7 +925,10 @@
             <div class="carousel-container">
                 <button class="carousel-btn-nav" onclick="prevSlide()">❮</button>
                 <div class="carousel-phone">
-                    <div class="phone-screen" id="carouselScreen">📱</div>
+                    <div class="phone-screen">
+                        <img id="carouselScreen" src="menuinicio.jpeg" alt="Vista previa de StudyApp">
+                        <div class="phone-screen-label" id="carouselLabel">Inicio</div>
+                    </div>
                 </div>
                 <button class="carousel-btn-nav" onclick="nextSlide()">❯</button>
             </div>
@@ -829,29 +942,17 @@
             <div class="demo-phones-group">
                 <div class="demo-phone-item">
                     <div class="demo-phone-screen">
-                        <div class="demo-phone-title">📅 Horarios</div>
-                        <div class="demo-phone-item-row">Lunes 9:00 - Matemáticas</div>
-                        <div class="demo-phone-item-row">Lunes 10:30 - Física</div>
-                        <div class="demo-phone-item-row">Martes 9:00 - Química</div>
-                        <div class="demo-phone-item-row">Miércoles 14:00 - Proyecto</div>
+                        <img src="horarioo.jpeg" alt="Pantalla de horarios">
                     </div>
                 </div>
                 <div class="demo-phone-item">
                     <div class="demo-phone-screen">
-                        <div class="demo-phone-title">✅ Tareas</div>
-                        <div class="demo-phone-item-row">Cálculo: Ejercicios</div>
-                        <div class="demo-phone-item-row">Historia: Capítulo 5</div>
-                        <div class="demo-phone-item-row">Proyecto: Presentación</div>
-                        <div class="demo-phone-item-row">Revisión: Examen Final</div>
+                        <img src="calendario.jpeg" alt="Pantalla de calendario">
                     </div>
                 </div>
                 <div class="demo-phone-item">
                     <div class="demo-phone-screen">
-                        <div class="demo-phone-title">📊 Calendario</div>
-                        <div class="demo-phone-item-row">3 de Mayo - Examen</div>
-                        <div class="demo-phone-item-row">10 de Mayo - Entrega</div>
-                        <div class="demo-phone-item-row">15 de Mayo - Presentación</div>
-                        <div class="demo-phone-item-row">20 de Mayo - Revisión</div>
+                        <img src="kanaba.jpeg" alt="Pantalla de kanban">
                     </div>
                 </div>
             </div>
@@ -910,9 +1011,65 @@
         <span class="modal-close" onclick="closeGeneralModal('galleryModal')">&times;</span>
         <h2><span style="font-size: 1.8rem;">📸</span> Galería del Sistema</h2>
         <div class="gallery-grid">
-            <img src="img1.png" alt="Pantalla de Inicio">
-            <img src="img2.png" alt="Vista de Horarios">
-            <img src="img3.png" alt="Panel de Tareas">
+            <div class="gallery-media-card">
+                <img src="menuinicio.jpeg" alt="Pantalla de inicio">
+                <div class="gallery-media-caption">Inicio</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="horarioo.jpeg" alt="Vista de horarios">
+                <div class="gallery-media-caption">Horario</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="horarioo2.jpeg" alt="Vista detallada de horarios">
+                <div class="gallery-media-caption">Horario 2</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="calendario.jpeg" alt="Vista de calendario">
+                <div class="gallery-media-caption">Calendario</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="calendario2.jpeg" alt="Vista detallada de calendario">
+                <div class="gallery-media-caption">Calendario 2</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="kanaba.jpeg" alt="Tablero Kanban">
+                <div class="gallery-media-caption">Kanban</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="agrearunaactividad.jpeg" alt="Agregar actividad">
+                <div class="gallery-media-caption">Agregar actividad</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="verlasactiviades.jpeg" alt="Ver actividades">
+                <div class="gallery-media-caption">Ver actividad</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="editarunaactiviada.jpeg" alt="Editar actividad">
+                <div class="gallery-media-caption">Editar actividad</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="verunamaeteria.jpeg" alt="Ver materia">
+                <div class="gallery-media-caption">Ver materia</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="editarunamatera.jpeg" alt="Editar materia">
+                <div class="gallery-media-caption">Editar materia</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="registrodeunamateria%20.jpeg" alt="Registro de materia">
+                <div class="gallery-media-caption">Registrar materia</div>
+            </div>
+            <div class="gallery-media-card">
+                <img src="configuracion%20.jpeg" alt="Configuración">
+                <div class="gallery-media-caption">Configuración</div>
+            </div>
+            <div class="gallery-media-card">
+                <video controls playsinline poster="menuinicio.jpeg" style="width:100%; height:150px; object-fit:cover;">
+                    <source src="video.mp4" type="video/mp4">
+                    Tu navegador no soporta la reproducción de video.
+                </video>
+                <div class="gallery-media-caption">Video de la app</div>
+            </div>
         </div>
     </div>
 </div>
@@ -982,7 +1139,22 @@
 
     <script>
     let currentSlide = 0;
-    const slides = ['📅', '✅', '📊', '🎯'];
+    const slides = [
+        { src: 'menuinicio.jpeg', label: 'Inicio' },
+        { src: 'horarioo.jpeg', label: 'Horario' },
+        { src: 'horarioo2.jpeg', label: 'Horario 2' },
+        { src: 'calendario.jpeg', label: 'Calendario' },
+        { src: 'calendario2.jpeg', label: 'Calendario 2' },
+        { src: 'kanaba.jpeg', label: 'Kanban' },
+        { src: 'agrearunaactividad.jpeg', label: 'Agregar actividad' },
+        { src: 'verlasactiviades.jpeg', label: 'Ver actividades' },
+        { src: 'editarunaactiviada.jpeg', label: 'Editar actividad' },
+        { src: 'verunamaeteria.jpeg', label: 'Ver materia' },
+        { src: 'editarunamatera.jpeg', label: 'Editar materia' },
+        { src: 'registrodeunamateria .jpeg', label: 'Registrar materia' },
+        { src: 'configuracion .jpeg', label: 'Configuración' },
+        { src: 'veruna actividad.jpeg', label: 'Ver actividad' }
+    ];
 
     // --- LÓGICA DE MODALES (UNIFICADA) ---
     // Esta función ahora sirve para todos los modales
@@ -1029,8 +1201,20 @@
     }
 
     function updateCarousel() {
-        document.getElementById('carouselScreen').textContent = slides[currentSlide];
+        const current = slides[currentSlide];
+        const carouselScreen = document.getElementById('carouselScreen');
+        const carouselLabel = document.getElementById('carouselLabel');
+        if (carouselScreen) {
+            carouselScreen.src = encodeURI(current.src);
+            carouselScreen.alt = current.label;
+        }
+        if (carouselLabel) {
+            carouselLabel.textContent = current.label;
+        }
     }
+
+    updateCarousel();
+    setInterval(nextSlide, 2500);
 
     // --- CONTACTO (CONEXIÓN AL SERVIDOR) ---
     async function submitForm() {
